@@ -1,0 +1,56 @@
+/* --- Wofi Style using your Sway Colors --- */
+
+/* Main background color and default text color */
+window {
+    background-color: #1a1b26; /* Dark background */
+    border: 2px solid #bb9af7; /* Border with your accent color */
+    border-radius: 10px;
+}
+
+/* Search box (input) */
+#input {
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    color: #c0caf5; /* Text color */
+    background-color: #2a2e42; /* A slightly lighter background for the input */
+}
+
+/* Inner box that contains the list of results */
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: transparent;
+}
+
+/* Outer box */
+#outer-box {
+    margin: 10px;
+    border: none;
+    background-color: transparent;
+}
+
+/* Scrollbar */
+#scroll {
+    border: none;
+    background-color: transparent;
+}
+
+/* Text style for each entry in the list */
+#text {
+    padding: 5px;
+    color: #c0caf5; /* Your foreground color */
+    background-color: transparent;
+}
+
+/* THE MAGIC HAPPENS HERE: The selected entry */
+#entry:selected {
+    background-color: #bb9af7; /* Your accent color */
+    border-radius: 5px;
+}
+
+/* Text color of the selected entry (to ensure good contrast) */
+#entry:selected #text {
+    color: #1a1b26; /* Using the background color for the text, providing high contrast */
+}
