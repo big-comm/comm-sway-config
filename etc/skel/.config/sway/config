@@ -20,6 +20,9 @@ client.focused $highlight $highlight $foreground
 
 ### Outputs
 
+# Apply power bash
+exec ~/.config/sway/scripts/change-power-bash
+
 # Set wallpaper
 output * bg $wallpaper fill
 
