@@ -8,6 +8,7 @@
     "bluetooth",
     "network",
     "battery",
+    "custom/power",
     "clock"
   ],
   "battery": {
@@ -54,10 +55,10 @@
     "interval": 60
   },
   "custom/updates": {
-    "format": "<span size=\"110%\">󰣇</span> {}",
+    "format": "<span size=\"110%\"> </span> {}",
     "exec": "~/.config/waybar/scripts/updates-arch-combined.sh",
     "interval": 7200,
-    "on-click": "alacritty --command paru -Syu --noconfirm",
+    "on-click": "kitty --hold sh -c 'paru -Syu'",
     "signal": 8
   },
   "custom/containers": {
@@ -65,6 +66,10 @@
     "exec-if": "which podman",
     "interval": 60,
     "return-type": "json"
+  },
+  "custom/power": {
+    "format": "<span size=\"120%\">󰐥</span>",
+    "on-click": "wlogout",
+    "tooltip-format": "Menu de Energia"
   }
 }
-

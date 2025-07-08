@@ -1,0 +1,34 @@
+@define-color background      #1E1E2E;
+@define-color foreground      #CDD6F4;
+@define-color inactive-border #43465A;
+@define-color highlight       #CBA6F7;
+@define-color highlight-text  #11111B;
+
+* {
+	font-family: "JetBrains Mono", Cantarell, Sans-Serif;
+	font-size: 20px;
+    font-weight: bold;
+	border: none;
+	background-image: none;
+}
+
+window {
+	background-color: @background;
+}
+
+button {
+	color: @foreground;
+	background-color: transparent;
+	border: 3px solid @inactive-border;
+	border-radius: 12px;
+	margin: 15px;
+    padding: 10px 20px;
+	transition: all 0.2s ease-in-out;
+}
+
+button:focus,
+button:hover {
+	background-color: @highlight;
+	color: @highlight-text;
+	border: 3px solid @highlight;
+}

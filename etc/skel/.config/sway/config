@@ -22,7 +22,7 @@ client.focused $highlight $highlight $foreground
 exec ~/.config/sway/scripts/change-power-bash
 
 # Apply keyboard layout
-exec ~/.config/sway/scripts/set_keyboard_layout.sh
+exec_always ~/.config/sway/scripts/set_keyboard_layout.sh
 
 # Set wallpaper
 output * bg $wallpaper fill
@@ -64,6 +64,8 @@ hide_edge_borders smart
 # Mouse
 # Hide mouse cursor when not used
 seat * hide_cursor 8000
+# Mouse Cursor
+seat * xcursor_theme Bibata-Modern-Classic
 
 # Touchpad
 input type:touchpad {
