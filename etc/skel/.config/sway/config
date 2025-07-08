@@ -1,5 +1,3 @@
-### Variables
-
 # Set logo key as main modifier
 set $mod Mod4
 
@@ -10,7 +8,7 @@ set $wallpaper /usr/share/wallpapers/cat_leaves.png
 set $lock_cmd swaylock --daemonize --image $wallpaper
 set $sleep_cmd systemctl suspend
 set $launcher_cmd wofi --show drun --no-actions --insensitive --prompt 'Run' | xargs swaymsg exec --
-
+set $launcher_wlogout ~/.config/sway/scripts/launch_wlogout.sh
 set $terminal kitty
 set $browser firefox
 set $filemanager nautilus
@@ -22,6 +20,9 @@ client.focused $highlight $highlight $foreground
 
 # Apply power bash
 exec ~/.config/sway/scripts/change-power-bash
+
+# Apply keyboard layout
+exec ~/.config/sway/scripts/set_keyboard_layout.sh
 
 # Set wallpaper
 output * bg $wallpaper fill
@@ -83,6 +84,9 @@ input type:keyboard {
 # Exit sway session
 bindsym $mod+Shift+e exec swaymsg exit
 
+# Lauch wlogout
+bindsym $mod+Control+l exec $launcher_wlogout
+
 # App launcher
 bindsym $mod+space exec $launcher_cmd
 
@@ -121,16 +125,16 @@ bindsym $mod+q kill
 bindsym $mod+Shift+c reload
 
 # Move focus around
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
 
 # Move the focused window with the same, but add Shift
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Down move down
 
 # Switch to workspace
 bindsym $mod+1 workspace number 1
@@ -204,4 +208,3 @@ exec wl-paste --type text --watch clipman store
 bindsym $mod+v exec clipman pick --tool wofi
 
 include /etc/sway/config.d/*
-

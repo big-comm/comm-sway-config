@@ -1,0 +1,113 @@
+#!/bin/bash
+
+LOCALE=$(locale | grep LANG | cut -d'=' -f2 | cut -d'.' -f1)
+
+case "$LOCALE" in
+  pt_BR*)
+    LAYOUT="br"
+    ;;
+  pt_PT*)
+    LAYOUT="pt"
+    ;;
+  en_US*)
+    LAYOUT="us"
+    ;;
+  en_GB*)
+    LAYOUT="gb"
+    ;;
+  en_CA*)
+    LAYOUT="ca"
+    ;;
+  en_AU*)
+    LAYOUT="au"
+    ;;
+  es_ES*)
+    LAYOUT="es"
+    ;;
+  es_MX*|es_AR*|es_CL*|es_CO*|es_PE*|es_VE*)
+    LAYOUT="latam"
+    ;;
+  fr_FR*)
+    LAYOUT="fr"
+    ;;
+  fr_CA*)
+    LAYOUT="ca"
+    ;;
+  fr_CH*)
+    LAYOUT="ch"
+    ;;
+  fr_BE*)
+    LAYOUT="be"
+    ;;
+  de_DE*|de_AT*)
+    LAYOUT="de"
+    ;;
+  de_CH*)
+    LAYOUT="ch"
+    ;;
+  it_IT*)
+    LAYOUT="it"
+    ;;
+  nl_NL*)
+    LAYOUT="nl"
+    ;;
+  ru_RU*|ru_UA*)
+    LAYOUT="ru"
+    ;;
+  pl_PL*)
+    LAYOUT="pl"
+    ;;
+  sv_SE*)
+    LAYOUT="se"
+    ;;
+  no_NO*)
+    LAYOUT="no"
+    ;;
+  dk_DK*)
+    LAYOUT="dk"
+    ;;
+  fi_FI*)
+    LAYOUT="fi"
+    ;;
+  tr_TR*)
+    LAYOUT="tr"
+    ;;
+  gr_GR*|el_GR*)
+    LAYOUT="gr"
+    ;;
+  hu_HU*)
+    LAYOUT="hu"
+    ;;
+  cz_CZ*|cs_CZ*)
+    LAYOUT="cz"
+    ;;
+  ja_JP*)
+    LAYOUT="jp"
+    ;;
+  ko_KR*)
+    LAYOUT="kr"
+    ;;
+  zh_CN*)
+    LAYOUT="cn"
+    ;;
+  zh_TW*)
+    LAYOUT="tw"
+    ;;
+  hi_IN*)
+    LAYOUT="in"
+    ;;
+  ar_*)
+    LAYOUT="ara"
+    ;;
+  he_IL*)
+    LAYOUT="il"
+    ;;
+    
+  *)
+    LAYOUT="us"
+    ;;
+esac
+
+swaymsg "input type:keyboard xkb_layout $LAYOUT"
+
+exit 0

@@ -1,0 +1,6 @@
+{ "label": "lock", "action": "swaylock", "text": "   Verrouiller", "keybind": "l" }
+{ "label": "logout", "action": "swaymsg exit", "text": "󰍃   Déconnexion", "keybind": "e" }
+{ "label": "suspend", "action": "systemctl suspend", "text": "   Suspendre", "keybind": "u" }
+{ "label": "hibernate", "action": "systemctl hibernate", "text": "   Hiberner", "keybind": "h" }
+{ "label": "reboot", "action": "systemctl reboot", "text": "   Redémarrer", "keybind": "r" }
+{ "label": "shutdown", "action": "systemctl poweroff", "text": "   Éteindre", "keybind": "s" }
