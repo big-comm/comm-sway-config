@@ -166,6 +166,9 @@ bindsym $mod+Shift+0 move container to workspace number 10
 # Splitting direction
 bindsym $mod+s split toggle
 
+# Toggles the layout current (horizontal/vertical)
+bindsym $mod+l layout toggle split
+
 # Make current focus fullscreen
 bindsym $mod+f fullscreen
 
