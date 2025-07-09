@@ -57,7 +57,7 @@
   "custom/updates": {
     "format": "<span size=\"110%\"> </span> {}",
     "exec": "~/.config/waybar/scripts/updates-arch-combined.sh",
-    "interval": 7200,
+    "interval": 1800,
     "on-click": "kitty --hold sh -c 'paru -Syu'",
     "signal": 8
   },
