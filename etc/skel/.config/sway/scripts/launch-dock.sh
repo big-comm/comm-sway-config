@@ -10,11 +10,11 @@ launcher_cmd="wofi --show drun --no-actions --insensitive --prompt 'Run' | xargs
 
 args=(
     -i 32
-    -w 5
     -mb 10
     -ml 10
     -mr 10
     -x
+    -nows
     -s "$style_dir/$style_file"
     -c "$launcher_cmd"
 )
