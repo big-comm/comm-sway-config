@@ -1,4 +1,5 @@
 # Set logo key as main modifier
+
 set $mod Mod4
 
 # Colors
@@ -23,6 +24,9 @@ exec ~/.config/sway/scripts/change-power-bash
 
 # Apply keyboard layout
 exec_always ~/.config/sway/scripts/set_keyboard_layout.sh
+
+# Execute nwg-dock
+exec_always --no-startup-id ~/.config/sway/scripts/launch-dock.sh
 
 # Set wallpaper
 output * bg $wallpaper fill
@@ -197,7 +201,8 @@ bindgesture swipe:3:right workspace next_on_output
 exec mako
 
 # Automatically manage outputs
-exec kanshi
+
+exec ~/.config/sway/scripts/setup-monitors.sh
 
 # Adjust color temperature to reduce eye strain
 exec gammastep
