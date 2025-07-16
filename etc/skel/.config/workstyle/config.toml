@@ -11,6 +11,13 @@
 
 # Apps
 "kitty" = ""
+"Alacritty" = ""
+"wezterm" = ""
+"foot" = ""
+"gnome-terminal" = ""
+"st" = ""
+"terminal" = ""
+"cool-retro-term" = "󰄛"
 "blender" = "󰂫"
 "calendar" = "󰃭"
 "gimp" = "󱇤"
@@ -32,6 +39,7 @@
 "steam" = "󰓓"
 "thunderbird" = "󰇰"
 "zathura" = "󰈦"
+"nautilus"="󱞊"
 
 # Websites
 "discord" = "󰙯"
@@ -49,6 +57,9 @@
 "brave" = "󰊯"
 "chromium" = "󰊯"
 "firefox" = "󰈹"
+"google-chrome" = "󰊯"
+"Google Chrome" = "󰊯"
+"librewolf" = "󰈹"
 
 [other]
 fallback_icon = "󰘔"
