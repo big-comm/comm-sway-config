@@ -208,7 +208,7 @@ exec ~/.config/sway/scripts/setup-monitors.sh
 exec gammastep
 
 # Autotiling
-exec autotiling-rs
+#exec autotiling-rs
 
 # Waybar Icons
 exec_always --no-startup-id workstyle &> /tmp/workstyle.log
