@@ -8,6 +8,7 @@
     "bluetooth",
     "network",
     "battery",
+    "custom/keybindings",
     "custom/power",
     "clock"
   ],
@@ -59,7 +60,7 @@
   "custom/updates": {
     "format": "<span size=\"110%\"> </span> {}",
     "exec": "~/.config/waybar/scripts/updates-arch-combined.sh",
-    "interval": 1800,
+    "interval": 600,
     "on-click": "kitty --hold sh -c 'paru -Syu'",
     "signal": 8
   },
@@ -68,6 +69,12 @@
     "exec-if": "which podman",
     "interval": 60,
     "return-type": "json"
+  },
+  "custom/keybindings": {
+    "format": "<span size=\"120%\">󰥻</span>",
+    "on-click": "~/.config/sway/scripts/show_keybinds.sh",
+    "tooltip": true,
+    "tooltip-format": "Mostrar atalhos de teclado"
   },
   "custom/power": {
     "format": "<span size=\"120%\">󰐥</span>",
