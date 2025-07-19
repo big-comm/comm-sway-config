@@ -1,4 +1,5 @@
 # Set logo key as main modifier
+
 set $mod Mod4
 
 # Colors
@@ -7,7 +8,8 @@ set $highlight #bb9af7
 set $wallpaper /usr/share/wallpapers/cat_leaves.png
 set $lock_cmd swaylock --daemonize --image $wallpaper
 set $sleep_cmd systemctl suspend
-set $launcher_cmd wofi --show drun --no-actions --insensitive --prompt 'Run' | xargs swaymsg exec --
+#set $launcher_cmd wofi --show drun --no-actions --insensitive --prompt 'Run' | xargs swaymsg exec --
+set $launcher_cmd wofi --show drun --no-actions --insensitive | xargs -r -- xdg-terminal-exec
 set $launcher_wlogout ~/.config/sway/scripts/launch_wlogout.sh
 set $terminal kitty
 set $browser firefox
@@ -18,20 +20,23 @@ client.focused $highlight $highlight $foreground
 
 ### Outputs
 
+# Apply polkit-gnome
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
 # Apply power bash
 exec ~/.config/sway/scripts/change-power-bash
 
 # Apply keyboard layout
 exec_always ~/.config/sway/scripts/set_keyboard_layout.sh
 
+# Execute nwg-dock
+exec_always --no-startup-id ~/.config/sway/scripts/launch-dock.sh
+
 # Set wallpaper
 output * bg $wallpaper fill
 
 ### Idle
 
-# Lock the screen after 300 seconds of inactivity, then turn off
-# all displays after another 300 seconds, and turn the screens back on when
-# resumed. It will also lock the screen before the computer goes to sleep.
 exec swayidle -w \
     timeout 900 '$lock_cmd' \
     timeout 1200 'swaymsg "output * dpms off"' \
@@ -62,9 +67,7 @@ hide_edge_borders smart
 ### Inputs
 
 # Mouse
-# Hide mouse cursor when not used
 seat * hide_cursor 8000
-# Mouse Cursor
 seat * xcursor_theme Bibata-Modern-Classic
 
 # Touchpad
@@ -75,40 +78,37 @@ input type:touchpad {
 
 # Keyboard
 input type:keyboard {
-    # Map caps lock to escape and use right alt as compose key to create umlauts
-    # To actually create them, type the following keys in a sequence:
-    # ralt + " + u --> ü
     xkb_options caps:escape,compose:ralt
 }
 
 ### Key bindings
       
 # Exit sway session
-bindsym $mod+Shift+e exec swaymsg exit
+bindsym $mod+Shift+e exec swaymsg exit #> session.exit
 
 # Lauch wlogout
-bindsym $mod+Control+l exec $launcher_wlogout
+bindsym $mod+Control+l exec $launcher_wlogout #> session.logout_menu
 
 # App launcher
-bindsym $mod+space exec $launcher_cmd
+bindsym $mod+space exec $launcher_cmd #> app.launcher
 
 # Launch terminal
-bindsym $mod+Return exec $terminal
+bindsym $mod+Return exec $terminal #> app.terminal
 
 # Launch browser
-bindsym $mod+b exec $browser
+bindsym $mod+b exec $browser #> app.browser
 
 # Launch filemaneger
-bindsym $mod+e exec $filemanager
+bindsym $mod+e exec $filemanager #> app.filemanager
 
 # Take screenshots
-bindsym Print exec grim "${HOME}/Downloads/screenshot-$(date +'%F-%H-%M-%S').png"
-bindsym Print+$mod exec grim -g "$(slurp)" "${HOME}/Downloads/screenshot-$(date +'%F-%H-%M-%S').png"
+bindsym Print exec grim "${HOME}/Downloads/screenshot-$(date +'%F-%H-%M-%S').png" #> action.screenshot_full
+bindsym $mod+Print exec grim -g "$(slurp)" "${HOME}/Downloads/screenshot-$(date +'%F-%H-%M-%S').png" #> action.screenshot_select
 
 # Lock screen
-bindsym $mod+ctrl+q exec loginctl lock-session
+bindsym $mod+ctrl+q exec loginctl lock-session #> session.lock
 
-# Media control
+# Media control (Ignored by help script)
 bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
 bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
@@ -121,92 +121,80 @@ bindsym --locked XF86AudioPrev exec playerctl previous
 bindsym XF86Search exec $launcher_cmd
 
 # Kill focused window
-bindsym $mod+q kill
+bindsym $mod+q exec swaymsg kill #> window.close
 
 # Reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+Shift+c exec swaymsg reload #> sway.reload
 
 # Move focus around
-bindsym $mod+Left focus left
-bindsym $mod+Right focus right
-bindsym $mod+Up focus up
-bindsym $mod+Down focus down
+bindsym $mod+Left exec swaymsg focus left #> nav.focus_left
+bindsym $mod+Right exec swaymsg focus right #> nav.focus_right
+bindsym $mod+Up exec swaymsg focus up #> nav.focus_up
+bindsym $mod+Down exec swaymsg focus down #> nav.focus_down
 
 # Move the focused window with the same, but add Shift
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Right move right
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Left exec swaymsg move left #> window.move_left
+bindsym $mod+Shift+Right exec swaymsg move right #> window.move_right
+bindsym $mod+Shift+Up exec swaymsg move up #> window.move_up
+bindsym $mod+Shift+Down exec swaymsg move down #> window.move_down
 
 # Switch to workspace
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
-bindsym $mod+tab workspace back_and_forth
+bindsym $mod+1 exec swaymsg workspace number 1 #> ws.go_1
+bindsym $mod+2 exec swaymsg workspace number 2 #> ws.go_2
+bindsym $mod+3 exec swaymsg workspace number 3 #> ws.go_3
+bindsym $mod+4 exec swaymsg workspace number 4 #> ws.go_4
+bindsym $mod+5 exec swaymsg workspace number 5 #> ws.go_5
+bindsym $mod+6 exec swaymsg workspace number 6 #> ws.go_6
+bindsym $mod+7 exec swaymsg workspace number 7 #> ws.go_7
+bindsym $mod+8 exec swaymsg workspace number 8 #> ws.go_8
+bindsym $mod+9 exec swaymsg workspace number 9 #> ws.go_9
+bindsym $mod+0 exec swaymsg workspace number 10 #> ws.go_10
+bindsym $mod+tab exec swaymsg workspace back_and_forth #> ws.toggle_last
 
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4; workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5; workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6; workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7; workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
+# Note o uso de aspas para garantir que o comando com ";" seja tratado como uma única unidade
+bindsym $mod+Shift+1 exec swaymsg 'move container to workspace number 1; workspace number 1' #> window.move_to_ws_1
+bindsym $mod+Shift+2 exec swaymsg 'move container to workspace number 2; workspace number 2' #> window.move_to_ws_2
+bindsym $mod+Shift+3 exec swaymsg 'move container to workspace number 3; workspace number 3' #> window.move_to_ws_3
+bindsym $mod+Shift+4 exec swaymsg 'move container to workspace number 4; workspace number 4' #> window.move_to_ws_4
+bindsym $mod+Shift+5 exec swaymsg 'move container to workspace number 5; workspace number 5' #> window.move_to_ws_5
+bindsym $mod+Shift+6 exec swaymsg 'move container to workspace number 6; workspace number 6' #> window.move_to_ws_6
+bindsym $mod+Shift+7 exec swaymsg 'move container to workspace number 7; workspace number 7' #> window.move_to_ws_7
+bindsym $mod+Shift+8 exec swaymsg 'move container to workspace number 8; workspace number 8' #> window.move_to_ws_8
+bindsym $mod+Shift+9 exec swaymsg 'move container to workspace number 9; workspace number 9' #> window.move_to_ws_9
+bindsym $mod+Shift+0 exec swaymsg 'move container to workspace number 10' #> window.move_to_ws_10
 
 # Splitting direction
-bindsym $mod+s split toggle
+bindsym $mod+s exec swaymsg split toggle #> layout.split_toggle
+
+# Toggles the layout current
+bindsym $mod+l exec swaymsg layout toggle split #> layout.toggle
 
 # Make current focus fullscreen
-bindsym $mod+f fullscreen
+bindsym $mod+f exec swaymsg fullscreen #> window.fullscreen
 
-# Resizing containers
+# Clipboard manager
+bindsym $mod+v exec clipman pick --tool wofi #> app.clipboard_history
+
+# Resizing containers mode (Ignored by help script because it has no "#>" key)
 bindsym $mod+r mode 'resize'
 mode 'resize' {
-    # Resizing keys
     bindsym h resize shrink width 10px
     bindsym j resize grow height 10px
     bindsym k resize shrink height 10px
     bindsym l resize grow width 10px
-
-    # Return to default mode
     bindsym Escape mode 'default'
 }
 
 ### Gesture bindings
-
-# Swipe back and forth between workspaces
 bindgesture swipe:3:left workspace prev_on_output
 bindgesture swipe:3:right workspace next_on_output
 
 ### Processes
-
-# Desktop notifications
 exec mako
-
-# Automatically manage outputs
-exec kanshi
-
-# Adjust color temperature to reduce eye strain
+exec ~/.config/sway/scripts/setup-monitors.sh
 exec gammastep
-
-# Autotiling
-exec autotiling-rs
-
-# Waybar Icons
 exec_always --no-startup-id workstyle &> /tmp/workstyle.log
-
-# Clipboard manager
 exec wl-paste --type text --watch clipman store
-bindsym $mod+v exec clipman pick --tool wofi
 
 include /etc/sway/config.d/*

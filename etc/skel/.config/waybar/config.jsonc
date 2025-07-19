@@ -8,6 +8,7 @@
     "bluetooth",
     "network",
     "battery",
+    "custom/keybindings",
     "custom/power",
     "clock"
   ],
@@ -29,12 +30,14 @@
     "tooltip-format": "<big>{:%B %Y}</big>\n\n<tt><small>{calendar}</small></tt>"
   },
   "network": {
-    "format-ethernet": "󰈀",
-    "format-wifi": "{icon}",
-    "format-linked": "󰈀",
-    "format-disconnected": "󰖪",
-    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
-    "tooltip-format-wifi": "{essid} at {signalStrength}%"
+      "format-wifi": "  {essid} ({signalStrength}%)",
+      "format-ethernet": "󰈀 {ifname}",
+      "format-disconnected": "󰖪 Desconectado",
+      "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nForça: {signalStrength}%\nFrequência: {frequency}MHz",
+      "tooltip-format-ethernet": "󰈀 {ifname}\nIP: {ipaddr}",
+      "tooltip-format-disconnected": "Desconectado",
+      "max-length": 50,
+      "on-click": "kitty -e nmtui"
   },
   "wireplumber": {
     "format": "<span size=\"120%\">{icon}</span>",
@@ -57,7 +60,7 @@
   "custom/updates": {
     "format": "<span size=\"110%\"> </span> {}",
     "exec": "~/.config/waybar/scripts/updates-arch-combined.sh",
-    "interval": 7200,
+    "interval": 600,
     "on-click": "kitty --hold sh -c 'paru -Syu'",
     "signal": 8
   },
@@ -66,6 +69,12 @@
     "exec-if": "which podman",
     "interval": 60,
     "return-type": "json"
+  },
+  "custom/keybindings": {
+    "format": "<span size=\"120%\">󰥻</span>",
+    "on-click": "~/.config/sway/scripts/show_keybinds.sh",
+    "tooltip": true,
+    "tooltip-format": "Mostrar atalhos de teclado"
   },
   "custom/power": {
     "format": "<span size=\"120%\">󰐥</span>",
