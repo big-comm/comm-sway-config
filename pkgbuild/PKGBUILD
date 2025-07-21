@@ -5,7 +5,8 @@
 pkgname=comm-sway-config
 pkgdesc="Sway Configuration Package"
 # Uncomment and edit the following lines as needed
-depends=('sway' 'sddm')
+depends=('sway' 'sddm' 'qt6-declarative' 'qt6-5compat')
+makedepends=('qt6-tools')
 #makedepends=('')
 #optdepends=('')
 #conflicts=('')
@@ -14,7 +15,7 @@ depends=('sway' 'sddm')
 pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
-license=('MIT')
+license=('MIT' 'GPL3')
 url="https://github.com/big-comm/${pkgname}"
 source=("git+${url}.git")
 md5sums=('SKIP')
@@ -33,9 +34,24 @@ prepare() {
 }
 
 build() {
-    cd "${srcdir}/${pkgname}"
-    # Add build steps here, if needed
-    # For example: make
+   cd "${srcdir}/${pkgname}"
+   # Add build steps here, if needed
+   # For example: make
+   local theme_dir="usr/share/sddm/themes/sequoia"
+   local translations_dir="${theme_dir}/translations"
+
+   # This loop finds all translation source files (.ts) and compiles them
+   # into the binary format (.qm) that Qt uses at runtime.
+   # This makes the theme support multiple languages dynamically.
+   if [ -d "${translations_dir}" ]; then
+       for ts_file in "${translations_dir}"/*.ts; do
+           if [ -f "${ts_file}" ]; then
+               local qm_file="${ts_file%.ts}.qm"
+               echo "Compiling ${ts_file} -> ${qm_file}"
+               lrelease-qt6 "${ts_file}" -qm "${qm_file}"
+           fi
+       done
+   fi
 }
 
 check() {

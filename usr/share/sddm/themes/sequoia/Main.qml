@@ -103,7 +103,7 @@ Pane {
       font.pointSize: datetime.fontSize
 
       renderType: Text.QtRendering
-      text: config.greeting
+      text: config.greeting || qsTr("Welcome back!")
       textFormat: Text.MarkdownText
       horizontalAlignment: Text.AlignHCenter
     }

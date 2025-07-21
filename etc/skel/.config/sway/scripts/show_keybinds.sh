@@ -66,7 +66,7 @@ KEYBINDS=$(awk -v mod_name="$MOD_DISPLAY_NAME" -v missing_text="$MISSING_TRANSLA
         gsub(/\+/, " + ", keys);
         sub(/--locked\s*/, "", keys); 
 
-        print "<b>" keys "</b>\n\t<small><i>" description "</i></small>"
+        print "<b>" keys "</b>\t<small><i>" description "</i></small>"
     }
 ' "$TRANSLATION_FILE" "$CONFIG_FILE")
 
