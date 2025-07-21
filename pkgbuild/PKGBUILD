@@ -48,7 +48,7 @@ build() {
            if [ -f "${ts_file}" ]; then
                local qm_file="${ts_file%.ts}.qm"
                echo "Compiling ${ts_file} -> ${qm_file}"
-               lrelease-qt6 "${ts_file}" -qm "${qm_file}"
+	       /usr/lib/qt6/bin/lrelease "${ts_file}" -qm "${qm_file}"
            fi
        done
    fi
