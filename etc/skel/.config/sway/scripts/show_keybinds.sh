@@ -1,5 +1,12 @@
 #!/bin/bash
 
+IDENTIFIER="keybind-helper"
+
+if pgrep -f "wofi.*--layer $IDENTIFIER" > /dev/null; then
+    pkill -f "wofi.*--layer $IDENTIFIER"
+    exit 0
+fi
+
 CONFIG_FILE="$HOME/.config/sway/config"
 I18N_DIR="$HOME/.config/sway/scripts/i18n"
 DEFAULT_LANG="en"
@@ -73,4 +80,5 @@ KEYBINDS=$(awk -v mod_name="$MOD_DISPLAY_NAME" -v missing_text="$MISSING_TRANSLA
 echo -e "$KEYBINDS" | wofi --dmenu --insensitive \
     --prompt "$PROMPT_TITLE" \
     --width 60% --height 70% \
-    --allow-markup
+    --allow-markup \
+    --layer "$IDENTIFIER"

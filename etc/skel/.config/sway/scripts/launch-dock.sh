@@ -2,11 +2,10 @@
 
 killall -q nwg-dock
 
-config_gtk="$HOME/.config/gtk-3.0/settings.ini"
 style_dir="$HOME/.config/nwg-dock"
 style_file="style.css"
 
-launcher_cmd="wofi --show drun --no-actions --insensitive --prompt 'Run' | xargs swaymsg exec --"
+launcher_cmd="$HOME/.config/sway/scripts/toggle_wofi.sh"
 
 args=(
     -i 32
