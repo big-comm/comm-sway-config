@@ -24,12 +24,19 @@ configure_language() {
             greeting_msg="Bem-vindo de volta!"
             ;;
         *)
+            if [[ -z "$system_lang" ]]; then
+                system_lang="en_US"
+            fi
             greeting_msg="Welcome back!"
             ;;
     esac
 
     if [[ -f "$theme_conf" ]]; then
+
         sed -i "s|greeting=.*|greeting=\"$greeting_msg\"|" "$theme_conf"
+        
+        sed -i "s|locale=.*|locale=\"$system_lang\"|" "$theme_conf"
+        
     fi
 }
 
