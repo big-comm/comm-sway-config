@@ -10,6 +10,29 @@ printMsg() {
     echo -e "${blueDark}[${lightBlue}comm-sway-config${blueDark}]${reset} ${cyan}→${reset} ${white}$1${reset}"
 }
 
+configure_language() {
+    local theme_conf="/usr/share/sddm/themes/sequoia/theme.conf"
+    local system_lang=""
+    local greeting_msg=""
+
+    if [[ -f /etc/locale.conf ]]; then
+        system_lang=$(grep -oP 'LANG=\K[^.]+' /etc/locale.conf)
+    fi
+
+    case "$system_lang" in
+        pt_BR)
+            greeting_msg="Bem-vindo de volta!"
+            ;;
+        *)
+            greeting_msg="Welcome back!"
+            ;;
+    esac
+
+    if [[ -f "$theme_conf" ]]; then
+        sed -i "s|greeting=.*|greeting=\"$greeting_msg\"|" "$theme_conf"
+    fi
+}
+
 pre_install() {
     printMsg "Preparing system for comm-sway-config..."
     if ! id "sddm" >/dev/null; then
@@ -37,7 +60,9 @@ post_install() {
         printMsg "Applying default SDDM configuration..."
         mv -f /etc/sddm.conf.pacnew /etc/sddm.conf
     fi
-
+    # Configure Language
+    configure_language
+    
     # Enable default display manager
     SERVICE_FILE="/usr/lib/systemd/system/sddm.service"
     SYMLINK_TARGET="/etc/systemd/system/display-manager.service"

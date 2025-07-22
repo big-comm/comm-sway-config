@@ -41,7 +41,7 @@ ComboBox {
   }
 
   model: [
-    {'value': root.activateVirtualKeyboard, 'icon': "", 'label': config.virtualKeyboard || qsTr("Virtual keyboard"), 'enabled': vkbd_installed},
+    {'value': root.activateVirtualKeyboard, 'icon': "", 'label': config.virtualKeyboard || "Virtual keyboard", 'enabled': vkbd_installed},
   ]
   delegate: Toggle {
     required property var modelData;
