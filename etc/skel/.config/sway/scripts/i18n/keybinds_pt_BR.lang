@@ -1,3 +1,4 @@
+action.record_screen=Gravar a tela (janela/seleção)
 ui.prompt_title=Atalhos do Sway
 ui.missing_translation=TRADUÇÃO AUSENTE
 session.exit=Sair da sessão do Sway

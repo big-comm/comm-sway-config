@@ -1,3 +1,4 @@
+action.record_screen=Record screen (window/selection)
 ui.prompt_title=Sway Keybindings
 ui.missing_translation=MISSING TRANSLATION
 session.exit=Exit Sway session

@@ -8,7 +8,6 @@ set $highlight #bb9af7
 set $wallpaper /usr/share/wallpapers/cat_leaves.png
 set $lock_cmd swaylock --daemonize --image $wallpaper
 set $sleep_cmd systemctl suspend
-#set $launcher_cmd wofi --show drun --no-actions --insensitive --prompt 'Run' | xargs swaymsg exec --
 set $launcher_cmd wofi --show drun --no-actions --insensitive | xargs -r -- xdg-terminal-exec
 set $launcher_wlogout ~/.config/sway/scripts/launch_wlogout.sh
 set $terminal kitty
@@ -101,9 +100,12 @@ bindsym $mod+b exec $browser #> app.browser
 # Launch filemaneger
 bindsym $mod+e exec $filemanager #> app.filemanager
 
+# Record the screen with a custom script
+bindsym $mod+R exec ~/.config/sway/scripts/screen_record.sh #> action.record_screen
+
 # Take screenshots
-bindsym Print exec grim "${HOME}/Downloads/screenshot-$(date +'%F-%H-%M-%S').png" #> action.screenshot_full
-bindsym $mod+Print exec grim -g "$(slurp)" "${HOME}/Downloads/screenshot-$(date +'%F-%H-%M-%S').png" #> action.screenshot_select
+bindsym Print exec ~/.config/sway/scripts/screenshot.sh full #> action.screenshot_full
+bindsym $mod+Print exec ~/.config/sway/scripts/screenshot.sh select #> action.screenshot_select
 
 # Lock screen
 bindsym $mod+ctrl+q exec loginctl lock-session #> session.lock
@@ -175,16 +177,6 @@ bindsym $mod+f exec swaymsg fullscreen #> window.fullscreen
 
 # Clipboard manager
 bindsym $mod+v exec clipman pick --tool wofi #> app.clipboard_history
-
-# Resizing containers mode (Ignored by help script because it has no "#>" key)
-bindsym $mod+r mode 'resize'
-mode 'resize' {
-    bindsym h resize shrink width 10px
-    bindsym j resize grow height 10px
-    bindsym k resize shrink height 10px
-    bindsym l resize grow width 10px
-    bindsym Escape mode 'default'
-}
 
 ### Gesture bindings
 bindgesture swipe:3:left workspace prev_on_output
