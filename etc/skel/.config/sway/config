@@ -53,6 +53,8 @@ for_window [app_id="^brave-.*-.*$"] shortcuts_inhibitor disable
 
 ### Status Bar
 
+exec_always ~/.config/sway/scripts/generate-waybar-config.sh
+
 bar {
     swaybar_command waybar
 }

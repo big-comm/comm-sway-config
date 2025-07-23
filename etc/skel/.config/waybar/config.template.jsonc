@@ -23,7 +23,7 @@
       "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
       "critical": ["󱃍"]
     },
-    "tooltip-format": "Battery at {capacity}%"
+    "tooltip-format": "$TOOLTIP_BATTERY"
   },
   "clock": {
     "format": "{:%a %d %b %H:%M}",
@@ -32,10 +32,10 @@
   "network": {
       "format-wifi": "  {essid} ({signalStrength}%)",
       "format-ethernet": "󰈀 {ifname}",
-      "format-disconnected": "󰖪 Desconectado",
+      "format-disconnected": "$FORMAT_DISCONNECTED",
       "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nForça: {signalStrength}%\nFrequência: {frequency}MHz",
       "tooltip-format-ethernet": "󰈀 {ifname}\nIP: {ipaddr}",
-      "tooltip-format-disconnected": "Desconectado",
+      "tooltip-format-disconnected": "$TOOLTIP_DISCONNECTED",
       "max-length": 50,
       "on-click": "kitty -e nmtui"
   },
@@ -43,14 +43,14 @@
     "format": "<span size=\"120%\">{icon}</span>",
     "format-muted": "<span size=\"120%\">󰸈</span>",
     "format-icons": ["󰕿", "󰖀", "󰕾"],
-    "tooltip-format": "Volume at {volume}%"
+    "tooltip-format": "$TOOLTIP_VOLUME"
   },
   "bluetooth": {
     "format": "",
     "format-on": "<span size=\"105%\">󰂯</span>",
     "format-connected": "<span size=\"105%\">󰂱</span>",
-    "tooltip-format-on": "Bluetooth {status}",
-    "tooltip-format-connected": "Connected to {device_alias}"
+    "tooltip-format-on": "$TOOLTIP_BT_STATUS",
+    "tooltip-format-connected": "$TOOLTIP_BT_CONNECTED"
   },
   "custom/tasks": {
     "exec": "~/.config/waybar/scripts/tasks.sh",
@@ -62,6 +62,7 @@
     "exec": "~/.config/waybar/scripts/updates-arch-combined.sh",
     "interval": 600,
     "on-click": "kitty --hold sh -c 'paru -Syu'",
+    "tooltip-format": "$TOOLTIP_UPDATE",
     "signal": 8
   },
   "custom/containers": {
@@ -72,13 +73,13 @@
   },
   "custom/keybindings": {
     "format": "<span size=\"120%\">󰥻</span>",
-    "on-click": "~/.config/waybar/scripts/show_keybinds.sh",
+    "on-click": "~/.config/sway/scripts/show_keybinds.sh",
     "tooltip": true,
-    "tooltip-format": "Mostrar atalhos de teclado"
+    "tooltip-format": "$TOOLTIP_KEYBINDINGS"
   },
   "custom/power": {
     "format": "<span size=\"120%\">󰐥</span>",
-    "on-click": "~/.config/waybar/scripts/launch_wlogout.sh",
-    "tooltip-format": "Menu de Energia"
+    "on-click": "~/.config/sway/scripts/launch_wlogout.sh",
+    "tooltip-format": "$TOOLTIP_POWER"
   }
 }
