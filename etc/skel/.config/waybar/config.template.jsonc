@@ -73,13 +73,13 @@
   },
   "custom/keybindings": {
     "format": "<span size=\"120%\">󰥻</span>",
-    "on-click": "~/.config/sway/scripts/show_keybinds.sh",
+    "on-click": "~/.config/waybar/scripts/show_keybinds.sh",
     "tooltip": true,
     "tooltip-format": "$TOOLTIP_KEYBINDINGS"
   },
   "custom/power": {
     "format": "<span size=\"120%\">󰐥</span>",
-    "on-click": "~/.config/sway/scripts/launch_wlogout.sh",
+    "on-click": "~/.config/waybar/scripts/launch_wlogout.sh",
     "tooltip-format": "$TOOLTIP_POWER"
   }
 }
