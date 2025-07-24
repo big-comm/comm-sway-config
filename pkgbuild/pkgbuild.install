@@ -10,20 +10,132 @@ printMsg() {
     echo -e "${blueDark}[${lightBlue}comm-sway-config${blueDark}]${reset} ${cyan}→${reset} ${white}$1${reset}"
 }
 
-#configure_language() {
-#    local theme_conf="/usr/share/sddm/themes/Candy/theme.conf"
-#    local system_lang=""
-#
-#    if [[ -f /etc/locale.conf ]]; then
-#        system_lang=$(grep -oP 'LANG=\K[^.]+' /etc/locale.conf)
-#    fi
-#
-#    if [[ -f "$theme_conf" ]]; then
-#
-#        sed -i "s|locale=.*|locale=\"$system_lang\"|" "$theme_conf"
-#        
-#    fi
-#}
+# Dynamically configures the SDDM theme language based on the installed system locale.
+configure_sddm_language() {
+    local sddm_conf="/etc/sddm.conf"
+    
+    # Check if the main SDDM config file exists.
+    if [[ ! -f "$sddm_conf" ]]; then
+        printMsg "Warning: SDDM configuration file not found at $sddm_conf. Skipping theme translation."
+        return
+    fi
+
+    # Extract the current theme name from sddm.conf.
+    # The grep regex '^Current=' ensures we get the correct key from the [Theme] section.
+    local current_theme
+    current_theme=$(grep -oP '^Current=\K.*' "$sddm_conf")
+
+    if [[ -z "$current_theme" ]]; then
+        printMsg "Warning: Could not determine the current SDDM theme from $sddm_conf. Skipping translation."
+        return
+    fi
+    
+    # --- Security Check ---
+    # This translation logic is specific to the 'Candy' theme.
+    # Proceed only if the current theme is 'Candy' to avoid breaking other themes.
+    if [[ "$current_theme" != "Candy" ]]; then
+        printMsg "Current theme is '$current_theme', not 'Candy'. Skipping specific translation."
+        return
+    fi
+
+    local theme_conf="/usr/share/sddm/themes/${current_theme}/theme.conf"
+    
+    # Check if the theme's configuration file exists.
+    if [[ ! -f "$theme_conf" ]]; then
+        printMsg "Warning: Theme configuration file for '$current_theme' not found at $theme_conf. Skipping translation."
+        return
+    fi
+    
+    # Detect the system language from /etc/locale.conf, which is set by the installer.
+    local system_lang=""
+    if [[ -f /etc/locale.conf ]]; then
+        system_lang=$(grep -oP 'LANG=\K[^.]+' /etc/locale.conf)
+    fi
+
+    printMsg "System language detected: '${system_lang:-en_US}'. Configuring SDDM theme '$current_theme'..."
+
+    # Define variables for the translated strings.
+    local header_text
+    local user_placeholder
+    local pass_placeholder
+    local show_pass
+    local login
+    local login_failed
+    local caps_warning
+    local session
+    local suspend
+    local hibernate
+    local reboot
+    local shutdown
+    local vkeyboard
+
+    # Select the correct set of strings based on the detected language.
+    case "$system_lang" in
+        pt_BR)
+            header_text="Bem-vindo"
+            user_placeholder="Nome de usuário"
+            pass_placeholder="Senha"
+            show_pass="Mostrar Senha"
+            login="Entrar"
+            login_failed="Usuário ou senha inválidos!"
+            caps_warning="Atenção: Caps Lock ativado"
+            session="Sessão"
+            suspend="Suspender"
+            hibernate="Hibernar"
+            reboot="Reiniciar"
+            shutdown="Desligar"
+            vkeyboard="Teclado Virtual"
+            ;;
+        es* )
+            header_text="Bienvenido"
+            user_placeholder="Nombre de usuario"
+            pass_placeholder="Contraseña"
+            show_pass="Mostrar Contraseña"
+            login="Iniciar sesión"
+            login_failed="¡Usuario o contraseña no válidos!"
+            caps_warning="Atención: Bloq Mayús activado"
+            session="Sesión"
+            suspend="Suspender"
+            hibernate="Hibernar"
+            reboot="Reiniciar"
+            shutdown="Apagar"
+            vkeyboard="Teclado Virtual"
+            ;;
+        *)
+            header_text="Welcome"
+            user_placeholder="Username"
+            pass_placeholder="Password"
+            show_pass="Show Password"
+            login="Login"
+            login_failed="Login failed!"
+            caps_warning="Warning: Caps Lock is active"
+            session="Session"
+            suspend="Suspend"
+            hibernate="Hibernate"
+            reboot="Reboot"
+            shutdown="Shutdown"
+            vkeyboard="Virtual Keyboard"
+            ;;
+    esac
+
+    # Apply the translations to the theme.conf file using sed.
+    # The '|' delimiter is used to avoid conflicts with file paths.
+
+    sed -i "s|HeaderText=.*|HeaderText=\"$header_text\"|" "$theme_conf"
+    sed -i "s|TranslatePlaceholderUsername=.*|TranslatePlaceholderUsername=\"$user_placeholder\"|" "$theme_conf"
+    sed -i "s|TranslatePlaceholderPassword=.*|TranslatePlaceholderPassword=\"$pass_placeholder\"|" "$theme_conf"
+    sed -i "s|TranslateShowPassword=.*|TranslateShowPassword=\"$show_pass\"|" "$theme_conf"
+    sed -i "s|TranslateLogin=.*|TranslateLogin=\"$login\"|" "$theme_conf"
+    sed -i "s|TranslateLoginFailedWarning=.*|TranslateLoginFailedWarning=\"$login_failed\"|" "$theme_conf"
+    sed -i "s|TranslateCapslockWarning=.*|TranslateCapslockWarning=\"$caps_warning\"|" "$theme_conf"
+    sed -i "s|TranslateSession=.*|TranslateSession=\"$session\"|" "$theme_conf"
+    sed -i "s|TranslateSuspend=.*|TranslateSuspend=\"$suspend\"|" "$theme_conf"
+    sed -i "s|TranslateHibernate=.*|TranslateHibernate=\"$hibernate\"|" "$theme_conf"
+    sed -i "s|TranslateReboot=.*|TranslateReboot=\"$reboot\"|" "$theme_conf"
+    sed -i "s|TranslateShutdown=.*|TranslateShutdown=\"$shutdown\"|" "$theme_conf"
+    sed -i "s|TranslateVirtualKeyboardButton=.*|TranslateVirtualKeyboardButton=\"$vkeyboard\"|" "$theme_conf"    
+    printMsg "SDDM theme translation applied successfully."
+}
 
 pre_install() {
     printMsg "Preparing system for comm-sway-config..."
@@ -48,12 +160,13 @@ post_install() {
         mv /usr/share/icons/default/index.theme.pacnew /usr/share/icons/default/index.theme
     fi
 
-    if [[ ! -f /etc/sddm.conf ]] && [[ -f /etc/sddm.conf.pacnew ]]; then
-        printMsg "Applying default SDDM configuration..."
+    if [[ -f /etc/sddm.conf.pacnew ]]; then
+        printMsg "Forcibly applying default SDDM configuration..."
         mv -f /etc/sddm.conf.pacnew /etc/sddm.conf
     fi
+
     # Configure Language
-    #configure_language
+    configure_sddm_language
     
     # Enable default display manager
     SERVICE_FILE="/usr/lib/systemd/system/sddm.service"

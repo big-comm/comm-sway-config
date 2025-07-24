@@ -1,18 +1,30 @@
 #!/bin/bash
 
-BLESH_CACHE_DIR="$HOME/.cache/blesh"
+LOCK_FILE="$HOME/.biglinux-shell-changed"
 
-if [ ! -f "$HOME/.biglinux-shell-changed" ]; then
-
-    mkdir -p "$BLESH_CACHE_DIR"
-
-    mkdir -p "$BLESH_CACHE_DIR/xterm-256color-dummy/d"
-    mkdir -p "$BLESH_CACHE_DIR/xterm-256color-dummy/k"
-
-    mkdir -p "$BLESH_CACHE_DIR/xterm-kitty-dummy/d"
-    mkdir -p "$BLESH_CACHE_DIR/xterm-kitty-dummy/k"
+if [ ! -f "$LOCK_FILE" ]; then
 
     biglinux-change-default-shell bash-power 2> /dev/null
     
-    touch "$HOME/.biglinux-shell-changed"
+    BASHRC_FILE="$HOME/.bashrc"
+    
+    LINE_TO_REPLACE="source /usr/share/bigbashview/ble/ble.sh --noattach"
+    
+    REPLACEMENT_BLOCK=$(cat <<'EOF'
+if [[ -f ~/.cache/blesh/init ]]; then
+    # Cache já existe: carrega normalmente.
+    source /usr/share/bigbashview/ble/ble.sh --noattach
+else
+    # Primeira execução: carrega suprimindo os erros de inicialização.
+    source /usr/share/bigbashview/ble/ble.sh --noattach 2> /dev/null
+fi
+EOF
+)
+
+    if [ -f "$BASHRC_FILE" ] && grep -qF "$LINE_TO_REPLACE" "$BASHRC_FILE"; then
+        sed -i "s#${LINE_TO_REPLACE}#${REPLACEMENT_BLOCK}#" "$BASHRC_FILE"
+    else
+        echo " "
+    fi
+    touch "$LOCK_FILE"
 fi
