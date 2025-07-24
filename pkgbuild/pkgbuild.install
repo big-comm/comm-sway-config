@@ -10,35 +10,20 @@ printMsg() {
     echo -e "${blueDark}[${lightBlue}comm-sway-config${blueDark}]${reset} ${cyan}→${reset} ${white}$1${reset}"
 }
 
-configure_language() {
-    local theme_conf="/usr/share/sddm/themes/sequoia/theme.conf"
-    local system_lang=""
-    local greeting_msg=""
-
-    if [[ -f /etc/locale.conf ]]; then
-        system_lang=$(grep -oP 'LANG=\K[^.]+' /etc/locale.conf)
-    fi
-
-    case "$system_lang" in
-        pt_BR)
-            greeting_msg="Bem-vindo de volta!"
-            ;;
-        *)
-            if [[ -z "$system_lang" ]]; then
-                system_lang="en_US"
-            fi
-            greeting_msg="Welcome back!"
-            ;;
-    esac
-
-    if [[ -f "$theme_conf" ]]; then
-
-        sed -i "s|greeting=.*|greeting=\"$greeting_msg\"|" "$theme_conf"
-        
-        sed -i "s|locale=.*|locale=\"$system_lang\"|" "$theme_conf"
-        
-    fi
-}
+#configure_language() {
+#    local theme_conf="/usr/share/sddm/themes/Candy/theme.conf"
+#    local system_lang=""
+#
+#    if [[ -f /etc/locale.conf ]]; then
+#        system_lang=$(grep -oP 'LANG=\K[^.]+' /etc/locale.conf)
+#    fi
+#
+#    if [[ -f "$theme_conf" ]]; then
+#
+#        sed -i "s|locale=.*|locale=\"$system_lang\"|" "$theme_conf"
+#        
+#    fi
+#}
 
 pre_install() {
     printMsg "Preparing system for comm-sway-config..."
@@ -68,7 +53,7 @@ post_install() {
         mv -f /etc/sddm.conf.pacnew /etc/sddm.conf
     fi
     # Configure Language
-    configure_language
+    #configure_language
     
     # Enable default display manager
     SERVICE_FILE="/usr/lib/systemd/system/sddm.service"

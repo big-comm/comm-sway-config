@@ -1,7 +1,18 @@
-      
 #!/bin/bash
 
+BLESH_CACHE_DIR="$HOME/.cache/blesh"
+
 if [ ! -f "$HOME/.biglinux-shell-changed" ]; then
+
+    mkdir -p "$BLESH_CACHE_DIR"
+
+    mkdir -p "$BLESH_CACHE_DIR/xterm-256color-dummy/d"
+    mkdir -p "$BLESH_CACHE_DIR/xterm-256color-dummy/k"
+
+    mkdir -p "$BLESH_CACHE_DIR/xterm-kitty-dummy/d"
+    mkdir -p "$BLESH_CACHE_DIR/xterm-kitty-dummy/k"
+
     biglinux-change-default-shell bash-power 2> /dev/null
+    
     touch "$HOME/.biglinux-shell-changed"
 fi
