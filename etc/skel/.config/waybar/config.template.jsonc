@@ -26,8 +26,8 @@
     "tooltip-format": "$TOOLTIP_BATTERY"
   },
   "clock": {
-    "format": "{:%a %d %b %H:%M}",
-    "tooltip-format": "<big>{:%B %Y}</big>\n\n<tt><small>{calendar}</small></tt>"
+    "format": " {:%H:%M}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>"
   },
   "network": {
       "format-wifi": "  {essid} ({signalStrength}%)",
@@ -72,7 +72,7 @@
     "return-type": "json"
   },
   "custom/keybindings": {
-    "format": "<span size=\"120%\">󰥻</span>",
+    "format": "<span size=\"120%\">󰥻 󰋗</span>",
     "on-click": "~/.config/waybar/scripts/show_keybinds.sh",
     "tooltip": true,
     "tooltip-format": "$TOOLTIP_KEYBINDINGS"
