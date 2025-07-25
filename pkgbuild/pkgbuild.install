@@ -160,11 +160,6 @@ post_install() {
         mv /usr/share/icons/default/index.theme.pacnew /usr/share/icons/default/index.theme
     fi
 
-    if [[ -f /etc/sddm.conf.pacnew ]]; then
-        printMsg "Forcibly applying default SDDM configuration..."
-        mv -f /etc/sddm.conf.pacnew /etc/sddm.conf
-    fi
-
     # Configure Language
     configure_sddm_language
     
