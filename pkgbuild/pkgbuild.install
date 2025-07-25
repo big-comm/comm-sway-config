@@ -85,6 +85,7 @@ configure_sddm_language() {
             reboot="Reiniciar"
             shutdown="Desligar"
             vkeyboard="Teclado Virtual"
+            date_format="dddd, d 'de' MMMM"
             ;;
         es* )
             header_text="Bienvenido"
@@ -100,6 +101,7 @@ configure_sddm_language() {
             reboot="Reiniciar"
             shutdown="Apagar"
             vkeyboard="Teclado Virtual"
+            date_format="dddd, d 'de' MMMM"
             ;;
         *)
             header_text="Welcome"
@@ -115,6 +117,7 @@ configure_sddm_language() {
             reboot="Reboot"
             shutdown="Shutdown"
             vkeyboard="Virtual Keyboard"
+            date_format="dddd, d 'of' MMMM"
             ;;
     esac
 
@@ -133,7 +136,9 @@ configure_sddm_language() {
     sed -i "s|TranslateHibernate=.*|TranslateHibernate=\"$hibernate\"|" "$theme_conf"
     sed -i "s|TranslateReboot=.*|TranslateReboot=\"$reboot\"|" "$theme_conf"
     sed -i "s|TranslateShutdown=.*|TranslateShutdown=\"$shutdown\"|" "$theme_conf"
-    sed -i "s|TranslateVirtualKeyboardButton=.*|TranslateVirtualKeyboardButton=\"$vkeyboard\"|" "$theme_conf"    
+    sed -i "s|TranslateVirtualKeyboardButton=.*|TranslateVirtualKeyboardButton=\"$vkeyboard\"|" "$theme_conf"
+    sed -i "s|DateFormat=.*|DateFormat=\"$date_format\"|" "$theme_conf" ## NOVO
+    
     printMsg "SDDM theme translation applied successfully."
 }
 
@@ -150,11 +155,6 @@ pre_install() {
 post_install() {
     printMsg "Finalizing comm-sway-config installation (system-level tasks)..."
 
-    if [[ -f /etc/skel/.bashrc.pacnew ]]; then
-        printMsg "Overwriting default /etc/skel/.bashrc with comm-sway version..."
-        mv -f /etc/skel/.bashrc.pacnew  /etc/skel/.bashrc
-    fi
-    
     if [[ ! -f /usr/share/icons/default/index.theme ]] && [[ -f /usr/share/icons/default/index.theme.pacnew ]]; then
         printMsg "Applying default cursor theme..."
         mv /usr/share/icons/default/index.theme.pacnew /usr/share/icons/default/index.theme

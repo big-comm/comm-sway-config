@@ -4,27 +4,9 @@ LOCK_FILE="$HOME/.biglinux-shell-changed"
 
 if [ ! -f "$LOCK_FILE" ]; then
 
-    biglinux-change-default-shell bash-power 2> /dev/null
+    biglinux-change-default-shell bash-power
+    mkdir -p ~/.cache/blesh/dummy
+    touch ~/.cache/blesh/dummy/decode.bind.dummy.bind
+    touch ~/.cache/blesh/dummy/k
     
-    BASHRC_FILE="$HOME/.bashrc"
-    
-    LINE_TO_REPLACE="source /usr/share/bigbashview/ble/ble.sh --noattach"
-    
-    REPLACEMENT_BLOCK=$(cat <<'EOF'
-if [[ -f ~/.cache/blesh/init ]]; then
-    # Cache já existe: carrega normalmente.
-    source /usr/share/bigbashview/ble/ble.sh --noattach
-else
-    # Primeira execução: carrega suprimindo os erros de inicialização.
-    source /usr/share/bigbashview/ble/ble.sh --noattach 2> /dev/null
-fi
-EOF
-)
-
-    if [ -f "$BASHRC_FILE" ] && grep -qF "$LINE_TO_REPLACE" "$BASHRC_FILE"; then
-        sed -i "s#${LINE_TO_REPLACE}#${REPLACEMENT_BLOCK}#" "$BASHRC_FILE"
-    else
-        echo " "
-    fi
-    touch "$LOCK_FILE"
 fi
