@@ -189,6 +189,6 @@ exec mako
 exec ~/.config/sway/scripts/setup-monitors.sh
 exec gammastep
 exec_always --no-startup-id workstyle &> /tmp/workstyle.log
-exec wl-paste --type text --watch clipman store
+#exec wl-paste --type text --watch clipman store
 
 include /etc/sway/config.d/*
